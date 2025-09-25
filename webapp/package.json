@@ -1,5 +1,5 @@
 {
-  "name": "webapp",
+  "name": "@ideanick/webapp",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,6 +11,10 @@
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'"
   },
   "dependencies": {
+    "@ideanick/backend": "workspace:*",
+    "@tanstack/react-query": "^5.90.2",
+    "@trpc/client": "^11.6.0",
+    "@trpc/react-query": "^11.6.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
