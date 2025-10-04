@@ -12,11 +12,13 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20.5.0"
   },
   "dependencies": {
     "@trpc/server": "^11.6.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "lodash": "^4.17.21"
   }
 }
