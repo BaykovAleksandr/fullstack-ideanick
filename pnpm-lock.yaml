@@ -75,6 +75,9 @@ importers:
       formik:
         specifier: ^2.4.6
         version: 2.4.6(@types/react@19.1.13)(react@19.1.1)
+      formik-validator-zod:
+        specifier: ^1.0.2
+        version: 1.0.2(formik@2.4.6(@types/react@19.1.13)(react@19.1.1))(zod@4.1.11)
       include-media:
         specifier: ^2.0.0
         version: 2.0.0
@@ -93,6 +96,12 @@ importers:
       sass:
         specifier: ^1.93.2
         version: 1.93.2
+      zod:
+        specifier: ^4.1.11
+        version: 4.1.11
+      zod-formik-adapter:
+        specifier: ^2.0.0
+        version: 2.0.0(formik@2.4.6(@types/react@19.1.13)(react@19.1.1))(zod@4.1.11)
     devDependencies:
       '@eslint/js':
         specifier: ^9.36.0
@@ -1206,6 +1215,12 @@ packages:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
+  formik-validator-zod@1.0.2:
+    resolution: {integrity: sha512-1348tUpeHUCHf6HcNT/XLf2odSddbPgbUR1WAPFUM8vbXA+d6cj6sC1oV7aoo0dr9oFQm46gbz7pSdQiydFEuQ==}
+    peerDependencies:
+      formik: ^2.2.9
+      zod: ^3.19.1
+
   formik@2.4.6:
     resolution: {integrity: sha512-A+2EI7U7aG296q2TLGvNapDNTZp1khVt5Vk0Q/fyfSROss0V/V6+txt2aJnwEos44IxTCW/LYAi/zgWzlevj+g==}
     peerDependencies:
@@ -2005,6 +2020,12 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod-formik-adapter@2.0.0:
+    resolution: {integrity: sha512-cLykLmQgmCmhx8C/mwR+rUNKRw6kEukejGRrByB+56zV1XtHF+xmOiQ2Lp2w5R0BdN3z42QKFekOI0Vy39vR8Q==}
+    peerDependencies:
+      formik: ^2.2.9
+      zod: 4.x
 
   zod@4.1.11:
     resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
@@ -3088,6 +3109,11 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
+  formik-validator-zod@1.0.2(formik@2.4.6(@types/react@19.1.13)(react@19.1.1))(zod@4.1.11):
+    dependencies:
+      formik: 2.4.6(@types/react@19.1.13)(react@19.1.1)
+      zod: 4.1.11
+
   formik@2.4.6(@types/react@19.1.13)(react@19.1.1):
     dependencies:
       '@types/hoist-non-react-statics': 3.3.7(@types/react@19.1.13)
@@ -3824,5 +3850,10 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod-formik-adapter@2.0.0(formik@2.4.6(@types/react@19.1.13)(react@19.1.1))(zod@4.1.11):
+    dependencies:
+      formik: 2.4.6(@types/react@19.1.13)(react@19.1.1)
+      zod: 4.1.11
 
   zod@4.1.11: {}
