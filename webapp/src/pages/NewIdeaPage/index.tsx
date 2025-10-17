@@ -4,6 +4,7 @@ import { Segment } from '../../components/Segment';
 import { Textarea } from '../../components/Textarea';
 import { useFormik } from 'formik';
 import { z } from 'zod';
+import { trpc } from '../../lib/trpc';
 
 const validationSchema = z.object({
   name: z.string().min(1),
@@ -16,6 +17,7 @@ const validationSchema = z.object({
 });
 
 export const NewIdeaPage = () => {
+  const createIdea = trpc.createIdea.useMutation();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -24,8 +26,8 @@ export const NewIdeaPage = () => {
       text: '',
     },
     validationSchema: toFormikValidationSchema(validationSchema),
-    onSubmit: (values) => {
-      console.info('Submitted', values);
+    onSubmit: async (values) => {
+      await createIdea.mutateAsync(values);
     },
   });
 
