@@ -9,12 +9,27 @@ export const trpc = initTRPC.context<AppContext>().create({
   transformer: superjson,
 });
 
-export const applyTrpcToExpressApp = (expressApp: Express, appContext: AppContext, trpcRouter: TrpcRouter) => {
+export const applyTrpcToExpressApp = async (expressApp: Express, appContext: AppContext, trpcRouter: TrpcRouter) => {
   expressApp.use(
     '/trpc',
     trpcExpress.createExpressMiddleware({
       router: trpcRouter,
       createContext: () => appContext,
+    })
+  );
+
+
+  const { expressHandler } = await import('trpc-playground/handlers/express');
+
+  expressApp.use(
+    '/trpc-playground',
+    await expressHandler({
+      trpcApiEndpoint: '/trpc',
+      playgroundEndpoint: '/trpc-playground',
+      router: trpcRouter,
+      request: {
+        superjson: true,
+      },
     })
   );
 };
