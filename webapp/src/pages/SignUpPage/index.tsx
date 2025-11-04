@@ -9,9 +9,13 @@ import { FormItems } from '../../components/FormItems';
 import { Input } from '../../components/Input';
 import { Segment } from '../../components/Segment';
 import { trpc } from '../../lib/trpc';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { getAllIdeasRoute } from '../../lib/routes';
 
 export const SignUpPage = () => {
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const navigate = useNavigate();
+  const trpcUtils = trpc.useUtils();
   const [submittingError, setSubmittingError] = useState<string | null>(null);
   const signUp = trpc.signUp.useMutation();
 
@@ -40,12 +44,10 @@ export const SignUpPage = () => {
     onSubmit: async (values) => {
       try {
         setSubmittingError(null);
-        await signUp.mutateAsync(values);
-        formik.resetForm();
-        setSuccessMessageVisible(true);
-        setTimeout(() => {
-          setSuccessMessageVisible(false);
-        }, 3000);
+        const { token } = await signUp.mutateAsync(values);
+        Cookies.set('token', token, { expires: 99999 });
+        void trpcUtils.invalidate();
+        navigate(getAllIdeasRoute());
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setSubmittingError(err.message);
@@ -62,7 +64,6 @@ export const SignUpPage = () => {
           <Input label="Password again" name="passwordAgain" type="password" formik={formik} />
           {!formik.isValid && !!formik.submitCount && <Alert color="red">Some fields are invalid</Alert>}
           {submittingError && <Alert color="red">{submittingError}</Alert>}
-          {successMessageVisible && <Alert color="green">Thanks for sign up!</Alert>}
           <Button loading={formik.isSubmitting}>Sign Up</Button>
         </FormItems>
       </form>
