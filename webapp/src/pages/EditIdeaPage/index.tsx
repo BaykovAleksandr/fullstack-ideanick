@@ -3,6 +3,7 @@ import { zUpdateIdeaTrpcInput } from '@ideanick/backend/src/router/updateIdea/in
 //import { useFormik } from 'formik';
 import pick from 'lodash/pick';
 //import { useState } from 'react';
+import { useMe } from '../../lib/ctx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Alert } from '../../components/Alert';
 import { Button } from '../../components/Button';
@@ -14,7 +15,6 @@ import { type EditIdeaRouteParams, getViewIdeaRoute } from '../../lib/routes';
 import { trpc } from '../../lib/trpc';
 //import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { useForm } from '../../lib/form';
-
 
 const EditIdeaComponent = ({ idea }: { idea: NonNullable<TrpcRouterOutput['getIdea']['idea']> }) => {
   const navigate = useNavigate();
@@ -53,9 +53,9 @@ export const EditIdeaPage = () => {
   const getIdeaResult = trpc.getIdea.useQuery({
     ideaNick,
   });
-  const getMeResult = trpc.getMe.useQuery();
+  const me = useMe();
 
-  if (getIdeaResult.isLoading || getIdeaResult.isFetching || getMeResult.isLoading || getMeResult.isFetching) {
+  if (getIdeaResult.isLoading || getIdeaResult.isFetching) {
     return <span>Loading...</span>;
   }
 
@@ -63,16 +63,11 @@ export const EditIdeaPage = () => {
     return <span>Error: {getIdeaResult.error.message}</span>;
   }
 
-  if (getMeResult.isError) {
-    return <span>Error: {getMeResult.error.message}</span>;
-  }
-
   if (!getIdeaResult.data?.idea) {
     return <span>Idea not found</span>;
   }
 
   const idea = getIdeaResult?.data?.idea;
-  const me = getMeResult?.data?.me;
 
   if (!me) {
     return <span>Only for authorized</span>;

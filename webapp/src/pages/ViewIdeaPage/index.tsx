@@ -4,15 +4,16 @@ import { LinkButton } from '../../components/Button';
 import { trpc } from '../../lib/trpc';
 import css from './index.module.scss';
 import { Segment } from '../../components/Segment';
-import {format} from 'date-fns/format';
+import { format } from 'date-fns/format';
+import { useMe } from '../../lib/ctx';
 
 export const ViewIdeaPage = () => {
   const { ideaNick } = useParams() as ViewIdeaRouteParams;
-   const getIdeaResult = trpc.getIdea.useQuery({
-     ideaNick,
-   });
-const getMeResult = trpc.getMe.useQuery();
-  if (getIdeaResult.isLoading || getIdeaResult.isFetching || getMeResult.isLoading || getMeResult.isFetching) {
+  const getIdeaResult = trpc.getIdea.useQuery({
+    ideaNick,
+  });
+  const me = useMe();
+  if (getIdeaResult.isLoading || getIdeaResult.isFetching) {
     return <span>Loading...</span>;
   }
 
@@ -20,15 +21,11 @@ const getMeResult = trpc.getMe.useQuery();
     return <span>Error: {getIdeaResult.error.message}</span>;
   }
 
-  if (getMeResult.isError) {
-    return <span>Error: {getMeResult.error.message}</span>;
-  }
-
   if (!getIdeaResult?.data?.idea) {
     return <span>Idea not found</span>;
   }
   const idea = getIdeaResult.data.idea;
-  const me = getMeResult?.data?.me;
+
   return (
     <Segment title={idea.name} description={idea.description}>
       <div className={css.createdAt}>Created At: {format(idea.createdAt, 'yyyy-MM-dd')}</div>
