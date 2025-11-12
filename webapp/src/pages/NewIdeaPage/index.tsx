@@ -2,16 +2,17 @@
 import { Input } from '../../components/Input';
 import { Segment } from '../../components/Segment';
 import { Textarea } from '../../components/Textarea';
-//import { useFormik } from 'formik';
+import { withPageWrapper } from '../../lib/pageWrapper';
 import { zCreateIdeaTrpcInput } from '@ideanick/backend/src/router/createIdea/input';
 import { trpc } from '../../lib/trpc';
-//import { useState } from 'react';
 import { Alert } from '../../components/Alert';
 import { Button } from '../../components/Button';
 import { FormItems } from '../../components/FormItems';
 import { useForm } from '../../lib/form';
 
-export const NewIdeaPage = () => {
+export const NewIdeaPage = withPageWrapper({
+  authorizedOnly: true,
+})(() => {
   const createIdea = trpc.createIdea.useMutation();
   const { formik, buttonProps, alertProps } = useForm({
     initialValues: {
@@ -48,4 +49,4 @@ export const NewIdeaPage = () => {
       </form>
     </Segment>
   );
-};
+});
