@@ -1,17 +1,17 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { TrpcProvider } from './lib/trpc';
-import { AllIdeasPage } from './pages/AllIdeasPage';
-import { ViewIdeaPage } from './pages/ViewIdeaPage';
 import { Layout } from './components/Layout';
 import './styles/global.scss';
-import { NewIdeaPage } from './pages/NewIdeaPage';
-import * as routes from './lib/routes';
-import { SignUpPage } from './pages/SignUpPage';
-import { SignInPage } from './pages/SignInPage';
-import { SignOutPage } from './pages/SignOutPage';
-import { EditIdeaPage } from './pages/EditIdeaPage';
 import { AppContextProvider } from './lib/ctx';
-import { NotFoundPage } from './pages/NotFoundPage';
+import * as routes from './lib/routes';
+import { SignInPage } from './pages/auth/SignInPage';
+import { SignOutPage } from './pages/auth/SignOutPage';
+import { SignUpPage } from './pages/auth/SignUpPage';
+import { AllIdeasPage } from './pages/ideas/AllIdeasPage';
+import { EditIdeaPage } from './pages/ideas/EditIdeaPage';
+import { NewIdeaPage } from './pages/ideas/NewIdeaPage';
+import { ViewIdeaPage } from './pages/ideas/ViewIdeaPage';
+import { NotFoundPage } from './pages/other/NotFoundPage';
 
 export const App = () => {
   return (
