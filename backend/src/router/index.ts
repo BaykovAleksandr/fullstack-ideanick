@@ -8,6 +8,7 @@ import { createIdeaTrpcRoute } from './ideas/createIdea';
 import { getIdeaTrpcRoute } from './ideas/getIdea';
 import { getIdeasTrpcRoute } from './ideas/getIdeas';
 import { updateIdeaTrpcRoute } from './ideas/updateIdea';
+import { updateProfileTrpcRoute } from './auth/updateProfile';
 // @endindex
 
 export const trpcRouter = trpc.router({
@@ -19,6 +20,7 @@ export const trpcRouter = trpc.router({
   getMe: getMeTrpcRoute,
   signIn: signInTrpcRoute,
   signUp: signUpTrpcRoute,
+  updateProfile: updateProfileTrpcRoute,
   updateIdea: updateIdeaTrpcRoute,
   // @endindex
 });
