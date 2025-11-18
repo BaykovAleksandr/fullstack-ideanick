@@ -9,6 +9,10 @@ import {
 } from '../../lib/routes';
 import { useMe } from '../../lib/ctx';
 import css from './index.module.scss';
+import { createRef } from 'react';
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const layoutContentElRef = createRef<HTMLDivElement>();
 
 export const Layout = () => {
   const me = useMe();
@@ -57,7 +61,7 @@ export const Layout = () => {
           )}
         </ul>
       </div>
-      <div className={css.content}>
+      <div className={css.content} ref={layoutContentElRef}>
         <Outlet />
       </div>
     </div>
