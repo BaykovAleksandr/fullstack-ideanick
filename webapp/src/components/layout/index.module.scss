@@ -52,7 +52,6 @@ $breakpoint: '<=900px';
     padding: 20px 30px;
     @include media($breakpoint) {
       overflow: visible;
-      flex: 0 0 auto;
       height: auto;
     }
   }

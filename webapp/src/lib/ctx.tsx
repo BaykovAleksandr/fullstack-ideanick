@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { TrpcRouterOutput } from '@ideanick/backend/src/router';
 import { createContext, useContext } from 'react';
+import { Loader } from '../components/Loader';
 import { trpc } from './trpc';
 
 export type AppContext = {
@@ -19,7 +20,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
         me: data?.me || null,
       }}
     >
-      {isLoading || isFetching ? <p>Loading...</p> : isError ? <p>Error: {error.message}</p> : children}
+      {isLoading || isFetching ? <Loader type="page" /> : isError ? <p>Error: {error.message}</p> : children}
     </AppReactContext.Provider>
   );
 };
