@@ -3,6 +3,8 @@ import { zGetIdeasTrpcInput } from './input';
 import _ from 'lodash';
 
 export const getIdeasTrpcRoute = trpc.procedure.input(zGetIdeasTrpcInput).query(async ({ ctx, input }) => {
+  const normalizedSearch = input.search?.trim();
+
   const rawIdeas = await ctx.prisma.idea.findMany({
     select: {
       id: true,
@@ -16,30 +18,33 @@ export const getIdeasTrpcRoute = trpc.procedure.input(zGetIdeasTrpcInput).query(
         },
       },
     },
-    where: !input.search
-      ? undefined
-      : {
-          OR: [
-            {
-              name: {
-                contains: input.search,
-                mode: 'insensitive',
+    where: {
+      blockedAt: null,
+      ...(normalizedSearch
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: normalizedSearch,
+                  mode: 'insensitive',
+                },
               },
-            },
-            {
-              description: {
-                contains: input.search,
-                mode: 'insensitive',
+              {
+                description: {
+                  contains: normalizedSearch,
+                  mode: 'insensitive',
+                },
               },
-            },
-            {
-              text: {
-                contains: input.search,
-                mode: 'insensitive',
+              {
+                text: {
+                  contains: normalizedSearch,
+                  mode: 'insensitive',
+                },
               },
-            },
-          ],
-        },
+            ],
+          }
+        : {}),
+    },
     orderBy: [
       {
         createdAt: 'desc',
