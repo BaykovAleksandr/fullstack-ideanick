@@ -28,7 +28,7 @@
     "react-dom": "^19.1.1",
     "react-head": "^3.4.2",
     "react-helmet-async": "^2.0.5",
-    "react-infinite-scroller": "^1.2.6",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^7.9.3",
     "reset-css": "^5.0.2",
     "sass": "^1.93.2",
