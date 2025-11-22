@@ -11,6 +11,7 @@ import { useForm } from '../../../lib/form';
 
 export const SignInPage = withPageWrapper({
   redirectAuthorized: true,
+  title: 'Sign In',
 })(() => {
   const trpcUtils = trpc.useUtils();
   const signIn = trpc.signIn.useMutation();
