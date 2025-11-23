@@ -10,16 +10,18 @@ import {
 import { useMe } from '../../lib/ctx';
 import css from './index.module.scss';
 import { createRef } from 'react';
+import Logo from '../../assets/images/logo.svg';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const layoutContentElRef = createRef<HTMLDivElement>();
 
 export const Layout = () => {
   const me = useMe();
+  const LogoComponent = Logo as unknown as React.FC<{ className?: string }>;
   return (
     <div className={css.layout}>
       <div className={css.navigation}>
-        <div className={css.logo}>IdeaNick</div>
+        <LogoComponent className={css.logo} />
         <ul className={css.menu}>
           <li className={css.item}>
             <Link className={css.link} to={getAllIdeasRoute()}>
