@@ -7,16 +7,27 @@ import { env } from './env';
 import Handlebars from 'handlebars';
 import { sendEmailThroughBrevo } from './brevo';
 
+// Упрощенный динамический импорт
+const getNewIdeaRoute = async (): Promise<string> => {
+  try {
+    const routes = await import('@ideanick/webapp/src/lib/routes.js');
+    return routes.getNewIdeaRoute();
+  } catch (error) {
+    console.error('Failed to load routes module:', error);
+    return '/new-idea'; // fallback route
+  }
+};
+
 const getHbrTemplates = _.memoize(async () => {
   const htmlPathsPattern = path.resolve(__dirname, '../emails/dist');
   const htmlPaths = fg.sync([`${htmlPathsPattern.replace(/\\/g, '/')}/*.html`]);
   const hbrTemplates: Record<string, HandlebarsTemplateDelegate> = {};
   for (const htmlPath of htmlPaths) {
     const templateName = path.basename(htmlPath, '.html');
-     const htmlTemplate = await fs.readFile(htmlPath, 'utf8');
-     hbrTemplates[templateName] = Handlebars.compile(htmlTemplate);
+    const htmlTemplate = await fs.readFile(htmlPath, 'utf8');
+    hbrTemplates[templateName] = Handlebars.compile(htmlTemplate);
   }
-   return hbrTemplates;
+  return hbrTemplates;
 });
 
 const getEmailHtml = async (templateName: string, templateVariables: Record<string, string> = {}) => {
@@ -38,7 +49,6 @@ const sendEmail = async ({
   templateVariables?: Record<string, any>;
 }) => {
   try {
-    
     const fullTemplateVaraibles = {
       ...templateVariables,
       homeUrl: env.WEBAPP_URL,
@@ -59,16 +69,19 @@ const sendEmail = async ({
 };
 
 export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'email'> }) => {
-	if (!user.email) {
+  if (!user.email) {
     throw new Error('User email is required to send email');
   }
+
+  const newIdeaRoute = await getNewIdeaRoute();
+
   return await sendEmail({
     to: user.email,
     subject: 'Thanks For Registration!',
     templateName: 'welcome',
     templateVariables: {
       userNick: user.nick,
-      addIdeaUrl: `${env.WEBAPP_URL}/ideas/new`,
+      addIdeaUrl: `${env.WEBAPP_URL}${newIdeaRoute}`,
     },
   });
 };

@@ -2,19 +2,20 @@
   "name": "@ideanick/backend",
   "private": true,
   "version": "0.0.0",
+  
   "scripts": {
     "dev": "ts-node-dev --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
     "build-emails": "rimraf src/emails/dist && mkdirp src/emails/dist && mjml src/emails/[!_]*.mjml -o src/emails/dist",
     "watch-emails": "mjml -w ./src/emails/[!_]*.mjml -o ./src/emails/dist",
-    "copy-emails": "copyfiles -u 1 ./src/emails/dist/*.html ./dist",
+    "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
     "build-ts": "rimraf ./dist && tsc --build ./tsconfig.json",
     "build": "pnpm build-ts && pnpm build-emails && pnpm copy-emails",
-    "start": "node ./dist/index.js",
+    "start": "node ./dist/backend/src/index.js",
     "pmd": "prisma migrate dev",
     "pgc": "prisma generate",
     "types": "tsc --noEmit --project ./tsconfig.json",
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'",
-    "prepare": "pnpm pgc"
+    "prepare": "pnpm pgc && ts-patch install -s"
   },
   "prisma": {
     "schema": "./src/prisma/schema.prisma"
@@ -30,6 +31,7 @@
     "prisma": "^6.18.0"
   },
   "dependencies": {
+    "@ideanick/webapp": "workspace:*",
     "@prisma/client": "^6.18.0",
     "@trpc/server": "^11.6.0",
     "axios": "^1.13.2",
