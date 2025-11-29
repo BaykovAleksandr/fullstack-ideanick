@@ -7,14 +7,15 @@ import { env } from './env';
 import Handlebars from 'handlebars';
 import { sendEmailThroughBrevo } from './brevo';
 
-// Упрощенный динамический импорт
-const getNewIdeaRoute = async (): Promise<string> => {
+const getNewIdeaRoute = async (options?: { abs?: boolean }): Promise<string> => {
   try {
     const routes = await import('@ideanick/webapp/src/lib/routes.js');
-    return routes.getNewIdeaRoute();
+    // Предполагаем, что функция getNewIdeaRoute в модуле routes тоже принимает параметры
+    return routes.getNewIdeaRoute(options);
   } catch (error) {
     console.error('Failed to load routes module:', error);
-    return '/new-idea'; // fallback route
+    // fallback route с учетом параметров
+    return options?.abs ? `${env.WEBAPP_URL}/new-idea` : '/new-idea';
   }
 };
 
@@ -81,7 +82,7 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
     templateName: 'welcome',
     templateVariables: {
       userNick: user.nick,
-      addIdeaUrl: `${env.WEBAPP_URL}${newIdeaRoute}`,
+      addIdeaUrl: `${getNewIdeaRoute({ abs: true })}`,
     },
   });
 };
