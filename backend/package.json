@@ -2,7 +2,6 @@
   "name": "@ideanick/backend",
   "private": true,
   "version": "0.0.0",
-  
   "scripts": {
     "dev": "ts-node-dev --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
     "build-emails": "rimraf src/emails/dist && mkdirp src/emails/dist && mjml src/emails/[!_]*.mjml -o src/emails/dist",
@@ -22,6 +21,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
+    "@types/cron": "^2.4.3",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/lodash": "^4.17.20",
@@ -36,6 +36,7 @@
     "@trpc/server": "^11.6.0",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
+    "cron": "^4.3.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "fast-glob": "^3.3.3",
