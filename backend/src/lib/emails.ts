@@ -19,6 +19,20 @@ const getNewIdeaRoute = async (options?: { abs?: boolean }): Promise<string> => 
   }
 };
 
+const getViewIdeaRoute = async (options: { abs?: boolean; ideaNick: string }): Promise<string> => {
+  try {
+    const routes = await import('@ideanick/webapp/src/lib/routes.js');
+    // Предполагаем, что функция getViewIdeaRoute в модуле routes тоже существует
+    return routes.getViewIdeaRoute(options);
+  } catch (error) {
+    console.error('Failed to load routes module:', error);
+    // fallback route с учетом параметров
+    const baseRoute = `/idea/${options?.ideaNick}`;
+    return options?.abs ? `${env.WEBAPP_URL}${baseRoute}` : baseRoute;
+  }
+};
+
+
 const getHbrTemplates = _.memoize(async () => {
   const htmlPathsPattern = path.resolve(__dirname, '../emails/dist');
   const htmlPaths = fg.sync([`${htmlPathsPattern.replace(/\\/g, '/')}/*.html`]);
@@ -98,6 +112,26 @@ export const sendIdeaBlockedEmail = async ({ user, idea }: { user: Pick<User, 'e
     templateName: 'ideaBlocked',
     templateVariables: {
       ideaNick: idea.nick,
+    },
+  });
+};
+
+export const sendMostLikedIdeasEmail = async ({
+  user,
+  ideas,
+}: {
+  user: Pick<User, 'email'>;
+  ideas: Array<Pick<Idea, 'nick' | 'name'>>;
+}) => {
+  if (!user.email) {
+    throw new Error('User email is required to send email');
+  }
+  return await sendEmail({
+    to: user.email,
+    subject: 'Most Liked Ideas!',
+    templateName: 'mostLikedIdeas',
+    templateVariables: {
+      ideas: ideas.map((idea) => ({ name: idea.name, url: getViewIdeaRoute({ abs: true, ideaNick: idea.nick }) })),
     },
   });
 };
