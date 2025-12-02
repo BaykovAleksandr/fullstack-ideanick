@@ -14,6 +14,7 @@ import { ViewIdeaPage } from './pages/ideas/ViewIdeaPage';
 import { NotFoundPage } from './pages/other/NotFoundPage';
 import { EditProfilePage } from './pages/auth/EditProfilePage';
 import { HeadProvider } from 'react-head';
+import { NotAuthRouteTracker } from './components/NotAuthRouteTracker';
 
 export const App = () => {
   return (
@@ -21,6 +22,7 @@ export const App = () => {
       <TrpcProvider>
         <AppContextProvider>
           <BrowserRouter>
+            <NotAuthRouteTracker />
             <Routes>
               <Route path={routes.getSignOutRoute.definition} element={<SignOutPage />} />
               <Route element={<Layout />}>
