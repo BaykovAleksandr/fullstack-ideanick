@@ -1,20 +1,20 @@
-import { trpc } from '../lib/trpc';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
+import { createTrpcRouter } from '../lib/trpc';
 // @index('./**/index.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path.split('/').slice(0, -1).join('/')}'`)
 import { getMeTrpcRoute } from './auth/getMe';
 import { signInTrpcRoute } from './auth/signIn';
 import { signUpTrpcRoute } from './auth/signUp';
+import { updatePasswordTrpcRoute } from './auth/updatePassword';
+import { updateProfileTrpcRoute } from './auth/updateProfile';
+import { blockIdeaTrpcRoute } from './ideas/blockIdea';
 import { createIdeaTrpcRoute } from './ideas/createIdea';
 import { getIdeaTrpcRoute } from './ideas/getIdea';
 import { getIdeasTrpcRoute } from './ideas/getIdeas';
-import { updateIdeaTrpcRoute } from './ideas/updateIdea';
-import { updateProfileTrpcRoute } from './auth/updateProfile';
-import { updatePasswordTrpcRoute } from './auth/updatePassword';
 import { setIdeaLikeTrpcRoute } from './ideas/setIdeaLike';
-import { blockIdeaTrpcRoute } from './ideas/blockIdea';
+import { updateIdeaTrpcRoute } from './ideas/updateIdea';
 // @endindex
 
-export const trpcRouter = trpc.router({
+export const trpcRouter = createTrpcRouter({
   // @index('./**/index.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
 
   createIdea: createIdeaTrpcRoute,
