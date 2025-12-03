@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { env } from './env';
 import Handlebars from 'handlebars';
 import { sendEmailThroughBrevo } from './brevo';
+import { logger } from './logger';
 
 const getNewIdeaRoute = async (options?: { abs?: boolean }): Promise<string> => {
   try {
@@ -70,7 +71,7 @@ const sendEmail = async ({
     };
     const html = await getEmailHtml(templateName, fullTemplateVaraibles);
     const { loggableResponse } = await sendEmailThroughBrevo({ to, html, subject });
-    console.info('sendEmail', {
+    logger.info('sendEmail', {
       to,
       templateName,
       templateVariables,

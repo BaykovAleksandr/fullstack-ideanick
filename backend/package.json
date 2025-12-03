@@ -48,6 +48,7 @@
     "passport-jwt": "^4.0.1",
     "superjson": "1.13.3",
     "trpc-playground": "^1.0.4",
+    "winston": "^3.18.3",
     "zod": "^4.1.11"
   }
 }
