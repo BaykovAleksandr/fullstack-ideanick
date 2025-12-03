@@ -28,6 +28,7 @@
     "@types/node": "^20.5.0",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
+    "@types/triple-beam": "^1.3.5",
     "prisma": "^6.18.0"
   },
   "dependencies": {
@@ -46,10 +47,13 @@
     "mjml": "^4.17.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "picocolors": "^1.1.1",
     "serialize-error": "8.1.0",
     "superjson": "1.13.3",
+    "triple-beam": "^1.4.1",
     "trpc-playground": "^1.0.4",
     "winston": "^3.18.3",
+    "yaml": "^2.8.2",
     "zod": "^4.1.11"
   }
 }
