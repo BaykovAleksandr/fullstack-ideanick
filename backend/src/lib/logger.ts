@@ -6,6 +6,7 @@ import { MESSAGE } from 'triple-beam';
 import winston from 'winston';
 import * as yaml from 'yaml';
 import { env } from './env';
+import debug from 'debug';
 
 export const winstonLogger = winston.createLogger({
   defaultMeta: { service: 'backend', hostEnv: env.HOST_ENV },
@@ -52,9 +53,15 @@ export const winstonLogger = winston.createLogger({
 
 export const logger = {
   info: (logType: string, message: string, meta?: Record<string, any>) => {
+    if (!debug.enabled(`ideanick:${logType}`)) {
+      return;
+    }
     winstonLogger.info(message, { logType, ...meta });
   },
   error: (logType: string, error: any, meta?: Record<string, any>) => {
+    if (!debug.enabled(`ideanick:${logType}`)) {
+      return;
+    }
     const serializedError = serializeError(error);
     winstonLogger.error(serializedError.message || 'Unknown error', {
       logType,

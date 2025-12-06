@@ -21,6 +21,7 @@ const zEnv = z.object({
   BREVO_API_KEY: zNonemptyTrimmedRequiredOnNotLocal,
   FROM_EMAIL_NAME: zNonemptyTrimmed,
   FROM_EMAIL_ADDRESS: zNonemptyTrimmed,
+  DEBUG: zNonemptyTrimmed,
 });
 
 // eslint-disable-next-line node/no-process-env

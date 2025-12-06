@@ -8,10 +8,14 @@ import { applyPassportToExpressApp } from './lib/passport';
 import { presetDb } from './scripts/presetDb';
 import { applyCron } from './lib/cron';
 import { logger } from './lib/logger';
+import debug from 'debug';
+
+
 
 void (async () => {
   let ctx: AppContext | null = null;
   try {
+    debug.enable(env.DEBUG);
     ctx = createAppContext();
     await presetDb(ctx);
     const expressApp = express();
