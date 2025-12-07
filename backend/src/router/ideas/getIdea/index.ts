@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { zGetIdeaTrpcInput } from './input';
+import { ExpectedError } from '../../../lib/error';
 
 export const getIdeaTrpcRoute = trpcLoggedProcedure.input(zGetIdeaTrpcInput).query(async ({ ctx, input }) => {
   const rawIdea = await ctx.prisma.idea.findUnique({
@@ -31,7 +32,7 @@ export const getIdeaTrpcRoute = trpcLoggedProcedure.input(zGetIdeaTrpcInput).que
     },
   });
   if (rawIdea?.blockedAt) {
-    throw new Error('Idea is blocked by administrator');
+    throw new ExpectedError('Idea is blocked by administrator');
   }
   const isLikedByMe = !!rawIdea?.ideasLikes.length;
   const likesCount = rawIdea?._count.ideasLikes || 0;
