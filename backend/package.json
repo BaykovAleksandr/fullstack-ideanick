@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "ts-node-dev --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
-    "test": "jest",
+    "test": "jest --runInBand",
     "build-emails": "rimraf src/emails/dist && mkdirp src/emails/dist && mjml src/emails/[!_]*.mjml -o src/emails/dist",
     "watch-emails": "mjml -w ./src/emails/[!_]*.mjml -o ./src/emails/dist",
     "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
@@ -40,6 +40,7 @@
     "axios": "^1.13.2",
     "cors": "^2.8.5",
     "cron": "^4.3.5",
+    "date-fns": "^4.1.0",
     "debug": "^4.4.3",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
