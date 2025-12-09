@@ -8,7 +8,7 @@
     "build-emails": "rimraf src/emails/dist && mkdirp src/emails/dist && mjml src/emails/[!_]*.mjml -o src/emails/dist",
     "watch-emails": "mjml -w ./src/emails/[!_]*.mjml -o ./src/emails/dist",
     "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
-    "build-ts": "rimraf ./dist && tsc --build ./tsconfig.json",
+    "build-ts": "rimraf ./dist && tsc --build ./tsconfig.build.json",
     "build": "pnpm build-ts && pnpm build-emails && pnpm copy-emails",
     "start": "node ./dist/backend/src/index.js",
     "pmd": "prisma migrate dev",
