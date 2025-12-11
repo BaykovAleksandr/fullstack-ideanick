@@ -6,4 +6,5 @@ export const zUpdateProfileTrpcInput = z.object({
     .min(1)
     .regex(/^[a-z0-9-]+$/, 'Nick may contain only lowercase letters, numbers and dashes'),
   name: z.string().max(50).default(''),
+  avatar: z.string().nullable(),
 });

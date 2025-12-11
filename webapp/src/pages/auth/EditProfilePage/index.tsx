@@ -10,6 +10,7 @@ import { Segment } from '../../../components/Segment';
 import { useForm } from '../../../lib/form';
 import { withPageWrapper } from '../../../lib/pageWrapper';
 import { trpc } from '../../../lib/trpc';
+import { UploadToCloudinary } from '../../../components/UploadToCloudinary';
 
 const General = ({ me }: { me: NonNullable<TrpcRouterOutput['getMe']['me']> }) => {
   const trpcUtils = trpc.useContext();
@@ -18,6 +19,7 @@ const General = ({ me }: { me: NonNullable<TrpcRouterOutput['getMe']['me']> }) =
     initialValues: {
       nick: me.nick,
       name: me.name,
+      avatar: me.avatar,
     },
     validationSchema: zUpdateProfileTrpcInput,
     onSubmit: async (values) => {
@@ -33,6 +35,7 @@ const General = ({ me }: { me: NonNullable<TrpcRouterOutput['getMe']['me']> }) =
       <FormItems>
         <Input label="Nick" name="nick" formik={formik} />
         <Input label="Name" name="name" formik={formik} />
+        <UploadToCloudinary label="Avatar" name="avatar" type="avatar" preset="big" formik={formik} />
         <Alert {...alertProps} />
         <Button {...buttonProps}>Update Profile</Button>
       </FormItems>
