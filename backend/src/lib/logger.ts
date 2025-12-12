@@ -55,9 +55,21 @@ export const winstonLogger = winston.createLogger({
 type Meta = Record<string, any> | undefined;
 const prettifyMeta = (meta: Meta): Meta => {
   return deepMap(meta, ({ key, value }) => {
-    if (['email', 'password', 'newPassword', 'oldPassword', 'token', 'text', 'description'].includes(key)) {
-      return '🙈';
-    }
+     if (
+       [
+         'email',
+         'password',
+         'newPassword',
+         'oldPassword',
+         'token',
+         'text',
+         'description',
+         'apiKey',
+         'signature',
+       ].includes(key)
+     ) {
+       return '🙈';
+     }
     return value;
   });
 };

@@ -50,4 +50,4 @@ export const getAvatarUrl = (
 ) =>
   publicId
     ? getCloudinaryUploadUrl(publicId, 'avatar', preset)
-    : getCloudinaryUploadUrl('v1695811282/avatars/avatar-placeholder', 'avatar', preset);
+    : getCloudinaryUploadUrl('roger-berry-avatar-placeholder-11562991561rbrfzlng6h_eglalb.jpg', 'avatar', preset);
