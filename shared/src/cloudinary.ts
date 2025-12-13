@@ -23,8 +23,8 @@ export const cloudinaryUploadTypes = {
     transformation: 'w_1000,h_1000,c_limit',
     format: 'jpg',
     presets: {
-      preview: 'w_200,h_200,c_fit,q_80',
-      large: 'w_1000,h_1000,c_limit,q_80',
+      preview: 'w_200,h_200,c_fit,q_70',
+      large: 'w_800,h_800,c_limit,q_80',
     },
   },
 } satisfies Record<string, CloudinaryUploadType>;

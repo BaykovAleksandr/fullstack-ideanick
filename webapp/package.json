@@ -2,7 +2,6 @@
   "name": "@ideanick/webapp",
   "private": true,
   "version": "0.0.0",
-  
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -31,6 +30,7 @@
     "react-head": "^3.4.2",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^5.5.0",
+    "react-image-gallery": "^1.4.0",
     "react-infinite-scroller": "1.2.6",
     "react-router-dom": "^7.9.3",
     "reset-css": "^5.0.2",
@@ -45,6 +45,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "@types/react-image-gallery": "^1.2.4",
     "@types/react-infinite-scroller": "^1.2.5",
     "@vitejs/plugin-react": "^5.0.3",
     "eslint": "^9.36.0",

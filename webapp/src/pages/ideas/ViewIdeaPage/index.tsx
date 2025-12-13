@@ -1,6 +1,6 @@
 import type { TrpcRouterOutput } from '@ideanick/backend/src/router';
 import { canBlockIdeas, canEditIdea } from '@ideanick/backend/src/utils/can';
-import {format} from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { Alert } from '../../../components/Alert';
 import { Button, LinkButton } from '../../../components/Button';
 import { FormItems } from '../../../components/FormItems';
@@ -11,7 +11,8 @@ import { getEditIdeaRoute, getViewIdeaRoute } from '../../../lib/routes';
 import { trpc } from '../../../lib/trpc';
 import css from './index.module.scss';
 import { Icon } from '../../../components/Icon/Icon';
-import { getAvatarUrl } from '../../../../../shared/src/cloudinary';
+import { getAvatarUrl, getCloudinaryUploadUrl } from '../../../../../shared/src/cloudinary';
+import ImageGallery from 'react-image-gallery';
 
 const LikeButton = ({ idea }: { idea: NonNullable<TrpcRouterOutput['getIdea']['idea']> }) => {
   const trpcUtils = trpc.useContext();
@@ -92,6 +93,18 @@ export const ViewIdeaPage = withPageWrapper({
         {idea.author.name ? ` (${idea.author.name})` : ''}
       </div>
     </div>
+    {!!idea.images.length && (
+      <div className={css.gallery}>
+        <ImageGallery
+          showPlayButton={false}
+          showFullscreenButton={false}
+          items={idea.images.map((image) => ({
+            original: getCloudinaryUploadUrl(image, 'image', 'large'),
+            thumbnail: getCloudinaryUploadUrl(image, 'image', 'preview'),
+          }))}
+        />
+      </div>
+    )}
     <div className={css.text} dangerouslySetInnerHTML={{ __html: idea.text }} />
     <div className={css.likes}>
       Likes: {idea.likesCount}
