@@ -1,3 +1,4 @@
+import { env } from './env';
 import { EOL } from 'os';
 import _ from 'lodash';
 import pc from 'picocolors';
@@ -5,7 +6,6 @@ import { serializeError } from 'serialize-error';
 import { MESSAGE } from 'triple-beam';
 import winston from 'winston';
 import * as yaml from 'yaml';
-import { env } from './env';
 import debug from 'debug';
 import { deepMap } from '../utils/deepMap';
 
@@ -55,21 +55,21 @@ export const winstonLogger = winston.createLogger({
 type Meta = Record<string, any> | undefined;
 const prettifyMeta = (meta: Meta): Meta => {
   return deepMap(meta, ({ key, value }) => {
-     if (
-       [
-         'email',
-         'password',
-         'newPassword',
-         'oldPassword',
-         'token',
-         'text',
-         'description',
-         'apiKey',
-         'signature',
-       ].includes(key)
-     ) {
-       return '🙈';
-     }
+    if (
+      [
+        'email',
+        'password',
+        'newPassword',
+        'oldPassword',
+        'token',
+        'text',
+        'description',
+        'apiKey',
+        'signature',
+      ].includes(key)
+    ) {
+      return '🙈';
+    }
     return value;
   });
 };
