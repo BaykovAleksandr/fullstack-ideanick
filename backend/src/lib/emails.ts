@@ -93,6 +93,7 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
   }
 
   const newIdeaRoute = await getNewIdeaRoute();
+  console.log(newIdeaRoute);
 
   return await sendEmail({
     to: user.email,

@@ -9,8 +9,7 @@ import { presetDb } from './scripts/presetDb';
 import { applyCron } from './lib/cron';
 import { logger } from './lib/logger';
 import debug from 'debug';
-
-
+import { applyServeWebApp } from './lib/serveWebApp';
 
 void (async () => {
   let ctx: AppContext | null = null;
@@ -25,6 +24,7 @@ void (async () => {
     });
     applyPassportToExpressApp(expressApp, ctx);
     await applyTrpcToExpressApp(expressApp, ctx, trpcRouter);
+    await applyServeWebApp(expressApp);
     applyCron(ctx);
      expressApp.use((error: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
        logger.error('express', error);

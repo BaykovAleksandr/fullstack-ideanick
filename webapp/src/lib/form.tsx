@@ -1,31 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type FormikHelpers, useFormik } from 'formik';
+import { type FormikHelpers, type FormikValues, useFormik } from 'formik';
 import { withZodSchema } from 'formik-validator-zod';
 import { useMemo, useState } from 'react';
 import { type z } from 'zod';
 import { type AlertProps } from '../components/Alert';
 import { type ButtonProps } from '../components/Button';
 
-export const useForm = <TZodSchema extends z.ZodTypeAny>({
+export const useForm = <TValues extends FormikValues = any>({
   successMessage = false,
   resetOnSuccess = true,
   showValidationAlert = false,
-  initialValues = {} as z.infer<TZodSchema>,
+  initialValues = {} as TValues,
   validationSchema,
   onSubmit,
 }: {
   successMessage?: string | false;
   resetOnSuccess?: boolean;
   showValidationAlert?: boolean;
-  initialValues?: z.infer<TZodSchema>;
-  validationSchema?: TZodSchema;
-  onSubmit?: (values: z.infer<TZodSchema>, actions: FormikHelpers<z.infer<TZodSchema>>) => Promise<any> | any;
+  initialValues?: TValues;
+  validationSchema?: z.ZodTypeAny;
+  onSubmit?: (values: TValues, actions: FormikHelpers<TValues>) => Promise<any> | any;
 }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [submittingError, setSubmittingError] = useState<Error | null>(null);
 
-  const formik = useFormik<z.infer<TZodSchema>>({
-    initialValues: initialValues as any,
+  const formik = useFormik<TValues>({
+    initialValues,
     ...(validationSchema && { validate: withZodSchema(validationSchema) }),
     onSubmit: async (values, formikHelpers) => {
       if (!onSubmit) {

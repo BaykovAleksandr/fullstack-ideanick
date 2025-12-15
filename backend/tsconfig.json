@@ -27,5 +27,5 @@
     "moduleResolution": "Node16",
     "target": "ES2021"
   },
-  "include": ["src"]
+  "include": ["src", "tsconfig.build.json"]
 }
