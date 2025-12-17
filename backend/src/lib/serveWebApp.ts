@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import express, { type Express } from 'express';
 import { logger } from './logger';
+import { parsePublicEnv } from '../../../webapp/src/lib/parsePublicEnv';
 
 const checkFileExists = async (filePath: string) => {
   return await fs
@@ -34,9 +35,11 @@ export const applyServeWebApp = async (expressApp: Express) => {
   }
 
   const htmlSource = await fs.readFile(path.resolve(webappDistDir, 'index.html'), 'utf8');
+   const publicEnv = parsePublicEnv(process.env);
+   const htmlSourceWithEnv = htmlSource.replace('{ replaceMeWithPublicEnv: true }', JSON.stringify(publicEnv, null, 2));
 
   expressApp.use(express.static(webappDistDir, { index: false }));
   expressApp.get(/\/(.*)/, (req, res) => {
-    res.send(htmlSource);
+    res.send(htmlSourceWithEnv);
   });
 };
