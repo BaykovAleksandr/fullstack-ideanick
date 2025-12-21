@@ -12,6 +12,7 @@
     "build": "pnpm build-ts && pnpm build-emails && pnpm copy-emails",
     "start": "node ./dist/backend/src/index.js",
     "pmd": "prisma migrate dev",
+    "pmp": "dotenv -e ./.env.production prisma migrate deploy",
     "pgc": "prisma generate",
     "types": "tsc --noEmit --project ./tsconfig.json",
     "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'",
@@ -30,8 +31,8 @@
     "@types/node": "^20.5.0",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
-    "@types/triple-beam": "^1.3.5",
-    "prisma": "^6.18.0"
+    "@types/triple-beam": "^1.3.5"
+    
   },
   "dependencies": {
     "@ideanick/webapp": "workspace:*",
@@ -54,6 +55,7 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "picocolors": "^1.1.1",
+    "prisma": "^6.18.0",
     "serialize-error": "8.1.0",
     "superjson": "1.13.3",
     "triple-beam": "^1.4.1",
