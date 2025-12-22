@@ -27,7 +27,10 @@ RUN pnpm install --frozen-lockfile --fix-lockfile
 ARG NODE_ENV=production
 ARG SOURCE_VERSION
 
-# 6. Сборка
+# 6. Проверка структуры перед сборкой фронтенда
+RUN find /app/webapp/src -name "*Layout*" -type f
+
+# 7. Сборка
 RUN pnpm b build    # -> соберёт бэкенд
 RUN pnpm w build    # -> соберёт фронтенд
 
@@ -38,28 +41,28 @@ WORKDIR /app
 
 ENV CI=true
 
-# 7. Копируем только production-артефакты
+# 8. Копируем только production-артефакты
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
 COPY --from=builder /app/webapp/package.json ./webapp/
 COPY --from=builder /app/backend/package.json ./backend/
 COPY --from=builder /app/shared/package.json ./shared/
 
-# 8. Копируем результаты сборки (только дистрибутивы)
+# 9. Копируем результаты сборки (только дистрибутивы)
 COPY --from=builder /app/webapp/dist ./webapp/dist
 COPY --from=builder /app/backend/dist ./backend/dist
 COPY --from=builder /app/backend/src/prisma ./backend/src/prisma
 
-# 9. Устанавливаем ТОЛЬКО production-зависимости для запуска
+# 10. Устанавливаем ТОЛЬКО production-зависимости для запуска
 RUN npm install -g pnpm
 # Устанавливаем зависимости для продакшена (prepare НЕ запустится из-за --prod)
 RUN pnpm install --prod --frozen-lockfile
 
-# 10. Генерируем Prisma клиент (нужен schema.prisma)
+# 11. Генерируем Prisma клиент (нужен schema.prisma)
 # Нужно убедиться, что prisma schema на месте
 RUN cd backend && npx prisma generate
 
 ARG SOURCE_VERSION
 ENV SOURCE_VERSION=$SOURCE_VERSION
 
-# 11. Запускаем миграции и стартуем сервер
+# 12. Запускаем миграции и стартуем сервер
 CMD pnpm b pmp && pnpm b start
