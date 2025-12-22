@@ -13,21 +13,21 @@ COPY shared/package.json ./shared/
 # 2. Устанавливаем переменную CI для pnpm
 ENV CI=true
 
-# 3. Используем fetch и install с флагом --fix-lockfile для циклических зависимостей
+# 3. ТОЛЬКО fetch (без install!), чтобы подготовить пакеты
 RUN pnpm fetch --prod
-# Устанавливаем зависимости, разрешая циклические зависимости
-RUN pnpm install --frozen-lockfile --fix-lockfile
 
-# 4. Копируем ВСЕ исходные коды
+# 4. Копируем ВСЕ исходные коды (включая schema.prisma!)
 COPY shared ./shared
 COPY webapp ./webapp
 COPY backend ./backend
 
+# 5. ТЕПЕРЬ устанавливаем зависимости (prepare найдет schema.prisma)
+RUN pnpm install --frozen-lockfile --fix-lockfile
+
 ARG NODE_ENV=production
 ARG SOURCE_VERSION
 
-# 5. Сборка (теперь зависимости установлены)
-RUN pnpm b prepare  # -> запустит ts-patch и prisma generate
+# 6. Сборка
 RUN pnpm b build    # -> соберёт бэкенд
 RUN pnpm w build    # -> соберёт фронтенд
 
@@ -38,27 +38,28 @@ WORKDIR /app
 
 ENV CI=true
 
-# 6. Копируем только production-артефакты
+# 7. Копируем только production-артефакты
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
 COPY --from=builder /app/webapp/package.json ./webapp/
 COPY --from=builder /app/backend/package.json ./backend/
 COPY --from=builder /app/shared/package.json ./shared/
 
-# 7. Копируем результаты сборки (только дистрибутивы)
+# 8. Копируем результаты сборки (только дистрибутивы)
 COPY --from=builder /app/webapp/dist ./webapp/dist
 COPY --from=builder /app/backend/dist ./backend/dist
 COPY --from=builder /app/backend/src/prisma ./backend/src/prisma
 
-# 8. Устанавливаем ТОЛЬКО production-зависимости для запуска
+# 9. Устанавливаем ТОЛЬКО production-зависимости для запуска
 RUN npm install -g pnpm
-# Устанавливаем зависимости для продакшена
-RUN pnpm install --prod --frozen-lockfile --fix-lockfile
+# Устанавливаем зависимости для продакшена (prepare НЕ запустится из-за --prod)
+RUN pnpm install --prod --frozen-lockfile
 
-# 9. Генерируем Prisma клиент (нужен schema.prisma)
-RUN pnpm b pgc
+# 10. Генерируем Prisma клиент (нужен schema.prisma)
+# Нужно убедиться, что prisma schema на месте
+RUN cd backend && npx prisma generate
 
 ARG SOURCE_VERSION
 ENV SOURCE_VERSION=$SOURCE_VERSION
 
-# 10. Запускаем миграции и стартуем сервер
+# 11. Запускаем миграции и стартуем сервер
 CMD pnpm b pmp && pnpm b start
