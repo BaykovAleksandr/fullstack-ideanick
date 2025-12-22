@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { TrpcProvider } from './lib/trpc';
-import { Layout } from './components/Layout';
+
 import './styles/global.scss';
 import { AppContextProvider } from './lib/ctx';
 import * as routes from './lib/routes';
@@ -15,6 +15,7 @@ import { NotFoundPage } from './pages/other/NotFoundPage';
 import { EditProfilePage } from './pages/auth/EditProfilePage';
 import { HeadProvider } from 'react-head';
 import { NotAuthRouteTracker } from './components/NotAuthRouteTracker';
+import { Layout } from './components/layout';
 
 export const App = () => {
   return (
