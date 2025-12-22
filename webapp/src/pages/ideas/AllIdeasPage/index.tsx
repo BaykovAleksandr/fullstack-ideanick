@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useDebounceValue } from 'usehooks-ts';
 import { Alert } from '../../../components/Alert';
 import { Input } from '../../../components/Input';
-import { layoutContentElRef } from '../../../components/Layout';
 import { Loader } from '../../../components/Loader';
 import { Segment } from '../../../components/Segment';
 import { useForm } from '../../../lib/form';
@@ -12,6 +11,7 @@ import { withPageWrapper } from '../../../lib/pageWrapper';
 import { getViewIdeaRoute } from '../../../lib/routes';
 import { trpc } from '../../../lib/trpc';
 import css from './index.module.scss';
+import { layoutContentElRef } from '../../../components/Layout/index';
 
 export const AllIdeasPage = withPageWrapper({
   title: 'IdeaNick',
