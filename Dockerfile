@@ -55,7 +55,7 @@ COPY --from=builder /app/backend/src/prisma ./backend/src/prisma
 # 10. Устанавливаем ТОЛЬКО production-зависимости для запуска
 RUN npm install -g pnpm
 # Устанавливаем зависимости для продакшена (prepare НЕ запустится из-за --prod)
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # 11. Генерируем Prisma клиент (нужен schema.prisma)
 # Нужно убедиться, что prisma schema на месте
