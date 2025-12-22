@@ -11,7 +11,7 @@ import { withPageWrapper } from '../../../lib/pageWrapper';
 import { getViewIdeaRoute } from '../../../lib/routes';
 import { trpc } from '../../../lib/trpc';
 import css from './index.module.scss';
-import { layoutContentElRef } from '../../../components/Layout/index';
+import { layoutContentElRef } from '../../../components/Layout';
 
 export const AllIdeasPage = withPageWrapper({
   title: 'IdeaNick',
