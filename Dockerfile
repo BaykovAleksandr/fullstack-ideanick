@@ -32,6 +32,18 @@ RUN find /app/webapp/src -name "*Layout*" -type f
 
 # 7. Сборка
 RUN pnpm b build    # -> соберёт бэкенд
+
+# В секции builder перед сборкой фронтенда добавьте:
+ARG VITE_BACKEND_TRPC_URL
+ARG VITE_WEBAPP_URL
+ARG VITE_CLOUDINARY_CLOUD_NAME
+ENV VITE_BACKEND_TRPC_URL=$VITE_BACKEND_TRPC_URL
+ENV VITE_WEBAPP_URL=$VITE_WEBAPP_URL
+ENV VITE_CLOUDINARY_CLOUD_NAME=$VITE_CLOUDINARY_CLOUD_NAME
+ENV NODE_ENV=production
+
+# Затем сборка фронтенда
+
 RUN pnpm w build    # -> соберёт фронтенд
 
 
