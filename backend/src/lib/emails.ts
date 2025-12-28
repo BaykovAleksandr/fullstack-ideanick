@@ -10,9 +10,9 @@ import { logger } from './logger';
 
 const getNewIdeaRoute = async (options?: { abs?: boolean }): Promise<string> => {
   try {
-    const routes = await import('@ideanick/webapp/src/lib/routes.js');
-    // Предполагаем, что функция getNewIdeaRoute в модуле routes тоже принимает параметры
-    return routes.getNewIdeaRoute(options);
+    // Используем относительный путь к проекту
+    const routes = await import('../../../webapp/src/lib/routes.js');
+    return await routes.getNewIdeaRoute(options);
   } catch (error) {
     console.error('Failed to load routes module:', error);
     // fallback route с учетом параметров
@@ -22,9 +22,8 @@ const getNewIdeaRoute = async (options?: { abs?: boolean }): Promise<string> => 
 
 const getViewIdeaRoute = async (options: { abs?: boolean; ideaNick: string }): Promise<string> => {
   try {
-    const routes = await import('@ideanick/webapp/src/lib/routes.js');
-    // Предполагаем, что функция getViewIdeaRoute в модуле routes тоже существует
-    return routes.getViewIdeaRoute(options);
+    const routes = await import('../../../webapp/src/lib/routes.js');
+    return await routes.getViewIdeaRoute(options);
   } catch (error) {
     console.error('Failed to load routes module:', error);
     // fallback route с учетом параметров
@@ -45,9 +44,12 @@ const getHbrTemplates = _.memoize(async () => {
   return hbrTemplates;
 });
 
-const getEmailHtml = async (templateName: string, templateVariables: Record<string, string> = {}) => {
+const getEmailHtml = async (templateName: string, templateVariables: Record<string, any> = {}) => {
   const hbrTemplates = await getHbrTemplates();
   const hbrTemplate = hbrTemplates[templateName];
+  if (!hbrTemplate) {
+    throw new Error(`Template ${templateName} not found`);
+  }
   const html = hbrTemplate(templateVariables);
   return html;
 };
@@ -64,11 +66,11 @@ const sendEmail = async ({
   templateVariables?: Record<string, any>;
 }) => {
   try {
-    const fullTemplateVaraibles = {
+    const fullTemplateVariables = {
       ...templateVariables,
       homeUrl: env.WEBAPP_URL,
     };
-    const html = await getEmailHtml(templateName, fullTemplateVaraibles);
+    const html = await getEmailHtml(templateName, fullTemplateVariables);
     const { loggableResponse } = await sendEmailThroughBrevo({ to, html, subject });
     logger.info('email', 'sendEmail', {
       to,
@@ -92,8 +94,9 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
     throw new Error('User email is required to send email');
   }
 
-  const newIdeaRoute = await getNewIdeaRoute();
-  console.log(newIdeaRoute);
+  // ОДИН вызов с await
+  const addIdeaUrl = await getNewIdeaRoute({ abs: true });
+  console.log('Generated URL for welcome email:', addIdeaUrl);
 
   return await sendEmail({
     to: user.email,
@@ -101,7 +104,7 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
     templateName: 'welcome',
     templateVariables: {
       userNick: user.nick,
-      addIdeaUrl: `${getNewIdeaRoute({ abs: true })}`,
+      addIdeaUrl: addIdeaUrl, // Уже строка, не Promise
     },
   });
 };
@@ -131,12 +134,21 @@ export const sendMostLikedIdeasEmail = async ({
   if (!user.email) {
     throw new Error('User email is required to send email');
   }
+
+  // Генерируем все URL для идей
+  const ideasWithUrls = await Promise.all(
+    ideas.map(async (idea) => ({
+      name: idea.name,
+      url: await getViewIdeaRoute({ abs: true, ideaNick: idea.nick }),
+    }))
+  );
+
   return await sendEmail({
     to: user.email,
     subject: 'Most Liked Ideas!',
     templateName: 'mostLikedIdeas',
     templateVariables: {
-      ideas: ideas.map((idea) => ({ name: idea.name, url: getViewIdeaRoute({ abs: true, ideaNick: idea.nick }) })),
+      ideas: ideasWithUrls,
     },
   });
 };
