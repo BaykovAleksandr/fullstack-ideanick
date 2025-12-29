@@ -8,29 +8,7 @@ import Handlebars from 'handlebars';
 import { sendEmailThroughBrevo } from './brevo';
 import { logger } from './logger';
 
-const getNewIdeaRoute = async (options?: { abs?: boolean }): Promise<string> => {
-  try {
-    // Используем относительный путь к проекту
-    const routes = await import('../../../webapp/src/lib/routes.js');
-    return await routes.getNewIdeaRoute(options);
-  } catch (error) {
-    console.error('Failed to load routes module:', error);
-    // fallback route с учетом параметров
-    return options?.abs ? `${env.WEBAPP_URL}/new-idea` : '/new-idea';
-  }
-};
-
-const getViewIdeaRoute = async (options: { abs?: boolean; ideaNick: string }): Promise<string> => {
-  try {
-    const routes = await import('../../../webapp/src/lib/routes.js');
-    return await routes.getViewIdeaRoute(options);
-  } catch (error) {
-    console.error('Failed to load routes module:', error);
-    // fallback route с учетом параметров
-    const baseRoute = `/idea/${options?.ideaNick}`;
-    return options?.abs ? `${env.WEBAPP_URL}${baseRoute}` : baseRoute;
-  }
-};
+import { getNewIdeaRoute, getViewIdeaRoute } from './email-routes';
 
 const getHbrTemplates = _.memoize(async () => {
   const htmlPathsPattern = path.resolve(__dirname, '../emails/dist');
@@ -94,8 +72,8 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
     throw new Error('User email is required to send email');
   }
 
-  // ОДИН вызов с await
-  const addIdeaUrl = await getNewIdeaRoute({ abs: true });
+  // УБРАТЬ await, так как теперь синхронная функция
+  const addIdeaUrl = getNewIdeaRoute({ abs: true });
   console.log('Generated URL for welcome email:', addIdeaUrl);
 
   return await sendEmail({
@@ -104,7 +82,7 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
     templateName: 'welcome',
     templateVariables: {
       userNick: user.nick,
-      addIdeaUrl: addIdeaUrl, // Уже строка, не Promise
+      addIdeaUrl: addIdeaUrl,
     },
   });
 };
@@ -135,13 +113,11 @@ export const sendMostLikedIdeasEmail = async ({
     throw new Error('User email is required to send email');
   }
 
-  // Генерируем все URL для идей
-  const ideasWithUrls = await Promise.all(
-    ideas.map(async (idea) => ({
-      name: idea.name,
-      url: await getViewIdeaRoute({ abs: true, ideaNick: idea.nick }),
-    }))
-  );
+  // УБРАТЬ Promise.all и await, так как теперь синхронные функции
+  const ideasWithUrls = ideas.map((idea) => ({
+    name: idea.name,
+    url: getViewIdeaRoute({ abs: true, ideaNick: idea.nick }),
+  }));
 
   return await sendEmail({
     to: user.email,

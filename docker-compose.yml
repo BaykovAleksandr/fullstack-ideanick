@@ -15,4 +15,4 @@ services:
       - ./backend/.env
       - ./.env.docker
     ports:
-      - '${PORT}:${PORT}'
+      - '${PORT:-3000}:${PORT:-3000}'
