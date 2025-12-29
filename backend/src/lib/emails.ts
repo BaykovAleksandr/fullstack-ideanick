@@ -68,15 +68,21 @@ const sendEmail = async ({
 };
 
 export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'email'> }) => {
+  console.log('=== SEND WELCOME EMAIL START ===');
+  console.log('User:', { nick: user.nick, email: user.email });
+  console.log('WEBAPP_URL:', env.WEBAPP_URL);
+  console.log('BREVO_API_KEY exists:', !!env.BREVO_API_KEY);
+  console.log('NODE_ENV:', process.env.NODE_ENV);
+
   if (!user.email) {
     throw new Error('User email is required to send email');
   }
 
-  // УБРАТЬ await, так как теперь синхронная функция
   const addIdeaUrl = getNewIdeaRoute({ abs: true });
   console.log('Generated URL for welcome email:', addIdeaUrl);
 
-  return await sendEmail({
+  console.log('=== CALLING SEND EMAIL ===');
+  const result = await sendEmail({
     to: user.email,
     subject: 'Thanks For Registration!',
     templateName: 'welcome',
@@ -85,6 +91,12 @@ export const sendWelcomeEmail = async ({ user }: { user: Pick<User, 'nick' | 'em
       addIdeaUrl: addIdeaUrl,
     },
   });
+
+  console.log('=== SEND EMAIL RESULT ===');
+  console.log('Result:', result);
+  console.log('=== SEND WELCOME EMAIL END ===');
+
+  return result;
 };
 
 export const sendIdeaBlockedEmail = async ({ user, idea }: { user: Pick<User, 'email'>; idea: Pick<Idea, 'nick'> }) => {
