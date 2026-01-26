@@ -8,17 +8,15 @@
 
 .ideas {
   .idea {
-    padding: 20px;
-    border: 1px solid $black;
-    border-radius: 10px;
     & + .idea {
-      margin-top: 20px;
+      margin-top: 16px;
     }
     .ideaLink {
       @include link;
+      transition: color 0.2s ease;
     }
   }
    .more {
-    margin-top: 15px;
+    margin-top: 20px;
   }
 }

@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { TrpcProvider } from './lib/trpc';
+import { useEffect } from 'react';
 
 import './styles/global.scss';
 import { AppContextProvider } from './lib/ctx';
@@ -16,10 +17,18 @@ import { EditProfilePage } from './pages/auth/EditProfilePage';
 import { HeadProvider } from 'react-head';
 import { NotAuthRouteTracker } from './components/NotAuthRouteTracker';
 import { Layout } from './components/layout';
+import { useTheme } from './lib/useTheme';
+
+const ThemeInitializer = () => {
+  const { theme } = useTheme();
+  // Тема применяется автоматически через useEffect в useTheme
+  return null;
+};
 
 export const App = () => {
   return (
     <HeadProvider>
+      <ThemeInitializer />
       <TrpcProvider>
         <AppContextProvider>
           <BrowserRouter>

@@ -11,17 +11,24 @@ import { useMe } from '../../lib/ctx';
 import css from './index.module.scss';
 import { createRef } from 'react';
 import Logo from '../../assets/images/logo.svg';
+import { useTheme } from '../../lib/useTheme';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const layoutContentElRef = createRef<HTMLDivElement>();
 
 export const Layout = () => {
   const me = useMe();
+  const { theme, toggleTheme } = useTheme();
   const LogoComponent = Logo as unknown as React.FC<{ className?: string }>;
   return (
     <div className={css.layout}>
       <div className={css.navigation}>
         <LogoComponent className={css.logo} />
+        <div className={css.themeToggle}>
+          <button className={css.themeButton} onClick={toggleTheme} title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}>
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+        </div>
         <ul className={css.menu}>
           <li className={css.item}>
             <Link className={css.link} to={getAllIdeasRoute()}>

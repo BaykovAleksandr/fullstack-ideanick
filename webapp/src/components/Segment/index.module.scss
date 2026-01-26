@@ -2,6 +2,12 @@
 @use '../../styles/_mixins.scss' as *;
 
 .segment {
+  background: var(--bg-secondary);
+  padding: 24px 28px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--shadow);
+  margin-bottom: 20px;
+
   h1.title {
     @include h1;
   }
@@ -11,15 +17,18 @@
   }
 
   .description {
-    font-size: 18px;
-    margin-top: 5px;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
   }
 
   .content {
-    margin-top: 12px;
+    margin-top: 16px;
   }
 
   & + .segment {
-    margin-top: 40px;
+    margin-top: 24px;
   }
 }

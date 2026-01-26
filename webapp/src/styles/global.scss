@@ -17,6 +17,8 @@ body {
   background: $defaultBackgroundColor;
   color: $defaultTextColor;
   line-height: $defaultLineHeight;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 *,
@@ -27,4 +29,14 @@ body {
 
 a {
   text-decoration: none;
+}
+
+p {
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 600;
 }

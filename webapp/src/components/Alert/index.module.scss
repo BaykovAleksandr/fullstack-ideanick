@@ -6,17 +6,32 @@
   border-radius: $borderRadiusSmall;
 
   &.red {
-    background-color: #ffd1d1;
-    color: #631717;
+    background-color: rgba(255, 0, 0, 0.15);
+    color: #ff6b6b;
+    
+    body.theme-dark & {
+      background-color: rgba(255, 0, 0, 0.2);
+      color: #ff8e8e;
+    }
   }
 
   &.green {
-    background-color: #d7ffd7;
-    color: #2b6d2b;
+    background-color: rgba(0, 200, 0, 0.15);
+    color: #2b8d2b;
+    
+    body.theme-dark & {
+      background-color: rgba(0, 200, 0, 0.2);
+      color: #4db84d;
+    }
   }
 
   &.brown {
-    background-color: #e9d5bd;
-    color: #614f39;
+    background-color: rgba(139, 90, 0, 0.15);
+    color: #b8860b;
+    
+    body.theme-dark & {
+      background-color: rgba(139, 90, 0, 0.2);
+      color: #d4a017;
+    }
   }
 }

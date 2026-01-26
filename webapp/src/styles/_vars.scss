@@ -4,11 +4,43 @@ $blue: #00c;
 $red: #c00;
 $gray: #ccc;
 $grayLight: #eee;
+$grayVeryLight: #f5f5f5;
+$grayMedium: #999;
+$grayDark: #555;
+
+// CSS переменные для темной темы
+:root {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #fff;
+  --bg-navigation: #fff;
+  --text-primary: #333;
+  --text-secondary: #999;
+  --text-heading: #1a1a1a;
+  --text-heading-h2: #2a2a2a;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --link-color: #2c5aa0;
+  --link-hover-color: #1a3d6b;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+body.theme-dark {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-navigation: #252525;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-heading: #ffffff;
+  --text-heading-h2: #f0f0f0;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --link-color: #5a9fff;
+  --link-hover-color: #7bb3ff;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
 
 $defaultFontFamily: 'Helvetica', 'Arial', sans-serif;
 $defaultFontSize: 14px;
-$defaultBackgroundColor: $white;
-$defaultTextColor: $black;
+$defaultBackgroundColor: var(--bg-primary);
+$defaultTextColor: var(--text-primary);
 $defaultLineHeight: 1.2;
 
 $borderRadiusSmall: 3px;

@@ -2,7 +2,6 @@ import type { TrpcRouterOutput } from '@ideanick/backend/src/router';
 import { zUpdatePasswordTrpcInput } from '@ideanick/backend/src/router/auth/updatePassword/input';
 import { zUpdateProfileTrpcInput } from '@ideanick/backend/src/router/auth/updateProfile/input';
 import { z } from 'zod';
-import { Alert } from '../../../components/Alert';
 import { Button } from '../../../components/Button';
 import { FormItems } from '../../../components/FormItems';
 import { Input } from '../../../components/Input';
@@ -11,6 +10,7 @@ import { useForm } from '../../../lib/form';
 import { withPageWrapper } from '../../../lib/pageWrapper';
 import { trpc } from '../../../lib/trpc';
 import { UploadToCloudinary } from '../../../components/UploadToCloudinary';
+import { Alert } from '../../../components/Alert';
 
 const General = ({ me }: { me: NonNullable<TrpcRouterOutput['getMe']['me']> }) => {
   const trpcUtils = trpc.useContext();

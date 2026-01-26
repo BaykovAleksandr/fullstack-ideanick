@@ -15,15 +15,17 @@
   .input {
     display: block;
     padding: 7px;
-    border: 1px solid $black;
+    border: 1px solid var(--border-color);
     border-radius: $borderRadiusSmall;
-    background-color: $white;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
     outline: none;
     width: 100%;
     max-width: 200px;
+    transition: border-color 200ms ease;
 
     &:focus {
-      border-color: $blue;
+      border-color: var(--link-color);
     }
 
     &.invalid {

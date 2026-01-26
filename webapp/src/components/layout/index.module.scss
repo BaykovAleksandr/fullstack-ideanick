@@ -17,13 +17,14 @@ $breakpoint: '<=900px';
     overflow: auto;
     flex: 0 0 200px;
     padding: 20px 30px;
-    border-right: 1px solid $black;
+    background: var(--bg-navigation);
+    border-right: 1px solid var(--border-color);
     @include media($breakpoint) {
       overflow: visible;
       flex: 0 0 auto;
       height: auto;
       border-right: none;
-      border-bottom: 1px solid $black;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .logo {
@@ -32,6 +33,35 @@ $breakpoint: '<=900px';
       max-width: 140px;
       height: auto;
       margin-bottom: 20px;
+      filter: brightness(0);
+      
+      body.theme-dark & {
+        filter: brightness(0) invert(1);
+      }
+    }
+
+    .themeToggle {
+      margin-bottom: 20px;
+    }
+
+    .themeButton {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 200ms ease;
+      color: var(--text-primary);
+      
+      &:hover {
+        background: var(--bg-primary);
+        transform: scale(1.05);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
     }
 
     .menu {
@@ -51,10 +81,12 @@ $breakpoint: '<=900px';
     height: 100%;
     overflow: auto;
     flex: 1 1 100%;
-    padding: 20px 30px;
+    padding: 30px 40px;
+    background: $defaultBackgroundColor;
     @include media($breakpoint) {
       overflow: visible;
       height: auto;
+      padding: 20px 30px;
     }
   }
 }

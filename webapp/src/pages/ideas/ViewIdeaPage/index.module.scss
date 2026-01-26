@@ -4,6 +4,7 @@
 .createdAt {
   font-size: 12px;
   margin-bottom: 10px;
+  color: var(--text-secondary);
 }
 
 .author {
@@ -25,11 +26,13 @@
     font-size: 16px;
     margin-bottom: 20px;
     margin-left: 10px;
+    color: var(--text-primary);
   }
 }
 
 .likes {
   margin-top: 20px;
+  color: var(--text-primary);
 
   .likeButton {
     @include link;
@@ -71,6 +74,8 @@
 
 .text {
   font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.6;
 
   & > *:not(:first-child) {
     margin-top: 10px;
